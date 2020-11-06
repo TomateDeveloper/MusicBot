@@ -4,6 +4,7 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
+require('dotenv').config();
 
 let TOKEN, PREFIX;
 try {
