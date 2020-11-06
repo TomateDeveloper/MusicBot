@@ -29,7 +29,7 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
  */
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
-  client.user.setActivity(`${PREFIX}help and ${PREFIX}play`, { type : "LISTENING" });
+  client.user.setActivity(`${PREFIX}help y ${PREFIX}play`, { type : "LISTENING" });
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
@@ -75,7 +75,7 @@ client.on("message", async (message) => {
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
       return message.reply(
-        `please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`
+        `por favor espera ${timeLeft.toFixed(1)} segundo(s) antes de usar el comando \`${command.name}\`.`
       );
     }
   }
@@ -87,6 +87,6 @@ client.on("message", async (message) => {
     command.execute(message, args);
   } catch (error) {
     console.error(error);
-    message.reply("There was an error executing that command.").catch(console.error);
+    message.reply("Hubo un error al ejecutar el comando.").catch(console.error);
   }
 });
