@@ -20,26 +20,26 @@ module.exports = {
   name: "playlist",
   cooldown: 3,
   aliases: ["pl"],
-  description: "Play a playlist from youtube",
+  description: "Reproduce una playlist de YouTube",
   async execute(message, args) {
     const { PRUNING } = require("../config.json");
     const { channel } = message.member.voice;
 
     const serverQueue = message.client.queue.get(message.guild.id);
     if (serverQueue && channel !== message.guild.me.voice.channel)
-      return message.reply(`You must be in the same channel as ${message.client.user}`).catch(console.error);
+      return message.reply(`Debes estar en el mismo canal de ${message.client.user}`).catch(console.error);
 
     if (!args.length)
       return message
         .reply(`Usage: ${message.client.prefix}playlist <YouTube Playlist URL | Playlist Name>`)
         .catch(console.error);
-    if (!channel) return message.reply("You need to join a voice channel first!").catch(console.error);
+    if (!channel) return message.reply("¡Necesitas ingresar primero a un canal de voz!").catch(console.error);
 
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT"))
-      return message.reply("Cannot connect to voice channel, missing permissions");
+      return message.reply("No se puede conectar al canal, no tengo los permisos suficientes");
     if (!permissions.has("SPEAK"))
-      return message.reply("I cannot speak in this voice channel, make sure I have the proper permissions!");
+      return message.reply("No puedo reproducir nada en el canal, asegurate de que tenga los permisos correspondientes");
 
     const search = args.join(" ");
     const pattern = /^.*(youtu.be\/|list=)([^#\&\?]*).*/gi;
@@ -66,11 +66,11 @@ module.exports = {
         videos = await playlist.getVideos(MAX_PLAYLIST_SIZE || 10, { part: "snippet" });
       } catch (error) {
         console.error(error);
-        return message.reply("Playlist not found :(").catch(console.error);
+        return message.reply("No se ha encontrado la Playlist :(").catch(console.error);
       }
     } else if (scdl.isValidUrl(args[0])) {
       if (args[0].includes("/sets/")) {
-        message.channel.send("⌛ fetching the playlist...");
+        message.channel.send("⌛ buscando las canciones de la playlist...");
         playlist = await scdl.getSetInfo(args[0], SOUNDCLOUD_CLIENT_ID);
         videos = playlist.tracks.map((track) => ({
           title: track.title,
@@ -85,7 +85,7 @@ module.exports = {
         videos = await playlist.getVideos(MAX_PLAYLIST_SIZE || 10, { part: "snippet" });
       } catch (error) {
         console.error(error);
-        return message.reply("Playlist not found :(").catch(console.error);
+        return message.reply("No se ha encontrado la playlist :(").catch(console.error);
       }
     }
 
@@ -100,7 +100,7 @@ module.exports = {
         serverQueue.songs.push(song);
         if (!PRUNING)
           message.channel
-            .send(`✅ **${song.title}** has been added to the queue by ${message.author}`)
+            .send(`✅ **${song.title}** ha sido añadido a la cola por ${message.author}`)
             .catch(console.error);
       } else {
         queueConstruct.songs.push(song);
@@ -117,10 +117,10 @@ module.exports = {
       playlistEmbed.setDescription(queueConstruct.songs.map((song, index) => `${index + 1}. ${song.title}`));
       if (playlistEmbed.description.length >= 2048)
         playlistEmbed.description =
-          playlistEmbed.description.substr(0, 2007) + "\nPlaylist larger than character limit...";
+          playlistEmbed.description.substr(0, 2007) + "\nPlaylist más larga que el máximo de carácteres permitidos...";
     }
 
-    message.channel.send(`${message.author} Started a playlist`, playlistEmbed);
+    message.channel.send(`${message.author} inició una Playlist`, playlistEmbed);
 
     if (!serverQueue) message.client.queue.set(message.guild.id, queueConstruct);
 
@@ -133,7 +133,7 @@ module.exports = {
         console.error(error);
         message.client.queue.delete(message.guild.id);
         await channel.leave();
-        return message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
+        return message.channel.send(`No se pudo ingresar al canal de voz: ${error}`).catch(console.error);
       }
     }
   }

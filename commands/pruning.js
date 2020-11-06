@@ -9,7 +9,7 @@ try {
 
 module.exports = {
   name: "pruning",
-  description: "Toggle pruning of bot messages",
+  description: "Actualiza el estado de la limpieza de mensajes del bot",
   execute(message) {
     if (!config) return;
     config.PRUNING = !config.PRUNING;
@@ -17,11 +17,11 @@ module.exports = {
     fs.writeFile("./config.json", JSON.stringify(config, null, 2), (err) => {
       if (err) {
         console.log(err);
-        return message.channel.send("There was an error writing to the file.").catch(console.error);
+        return message.channel.send("Hubo un error al actualizar la configuración.").catch(console.error);
       }
 
       return message.channel
-        .send(`Message pruning is ${config.PRUNING ? "**enabled**" : "**disabled**"}`)
+        .send(`La configuración de limpiza automática está ${config.PRUNING ? "**activada**" : "**desactivada**"}`)
         .catch(console.error);
     });
   }

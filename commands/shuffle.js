@@ -2,10 +2,10 @@ const { canModifyQueue } = require("../util/EvobotUtil");
 
 module.exports = {
   name: "shuffle",
-  description: "Shuffle queue",
+  description: "Mezcla aleatoriamente la fila de reproducción",
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);
-    if (!queue) return message.channel.send("There is no queue.").catch(console.error);
+    if (!queue) return message.channel.send("No hay una fila de reproducción.").catch(console.error);
     if (!canModifyQueue(message.member)) return;
 
     let songs = queue.songs;
@@ -15,6 +15,6 @@ module.exports = {
     }
     queue.songs = songs;
     message.client.queue.set(message.guild.id, queue);
-    queue.textChannel.send(`${message.author} 🔀 shuffled the queue`).catch(console.error);
+    queue.textChannel.send(`${message.author} 🔀 mezcló aleatoriamente la fila de reproducción`).catch(console.error);
   }
 };
