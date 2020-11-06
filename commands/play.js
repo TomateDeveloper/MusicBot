@@ -4,7 +4,7 @@ const YouTubeAPI = require("simple-youtube-api");
 const scdl = require("soundcloud-downloader");
 
 let SOUNDCLOUD_CLIENT_ID;
-const youtube = new YouTubeAPI(process.env.YOUTUBE_API_KEY + "");
+const youtube = new YouTubeAPI(process.env.YOUTUBE_API_KEY);
 
 module.exports = {
   name: "play",

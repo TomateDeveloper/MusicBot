@@ -3,18 +3,16 @@ const { play } = require("../include/play");
 const YouTubeAPI = require("simple-youtube-api");
 const scdl = require("soundcloud-downloader");
 
-let YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID, MAX_PLAYLIST_SIZE;
+let SOUNDCLOUD_CLIENT_ID, MAX_PLAYLIST_SIZE;
 try {
   const config = require("../config.json");
-  YOUTUBE_API_KEY = config.YOUTUBE_API_KEY;
   SOUNDCLOUD_CLIENT_ID = config.SOUNDCLOUD_CLIENT_ID;
   MAX_PLAYLIST_SIZE = config.MAX_PLAYLIST_SIZE;
 } catch (error) {
-  YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
   SOUNDCLOUD_CLIENT_ID = process.env.SOUNDCLOUD_CLIENT_ID;
   MAX_PLAYLIST_SIZE = process.env.MAX_PLAYLIST_SIZE;
 }
-const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
+const youtube = new YouTubeAPI(process.env.YOUTUBE_API_KEY);
 
 module.exports = {
   name: "playlist",
